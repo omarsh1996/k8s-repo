@@ -20,11 +20,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: Login to Amazon ECR
-        runs-on: ubuntu-latest
-        steps:
-          - name : Login to ECR
-            run: aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 123567778292.dkr.ecr.eu-central-1.amazonaws.com
+      - name : Login to ECR
+        run: aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 123567778292.dkr.ecr.eu-central-1.amazonaws.com
 
       - run: docker build -t ${{ github.event.pull_request.head.ref }} .
         name: build image
