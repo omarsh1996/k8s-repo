@@ -1,12 +1,14 @@
-name: GitHub Actions Demo
+name: Main Workflow
+
 on:
   pull_request:
     branches:
       - main
+
 jobs:
   build:
-    uses: ./.github/workflows/build-image.yaml
+    uses: ./.github/workflows/build-image.yaml@main
     with:
-      IMAGE_REPO: ${{ env.IMAGE_REPO }}
+      IMAGE_REPO: ${{ secrets.IMAGE_REPO }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
