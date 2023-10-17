@@ -1,37 +1,17 @@
-name: Main Workflow
+name: Caller Workflow
 
 on:
   pull_request:
     branches:
       - main
 
-
 jobs:
-  buildImage:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        name: Checkout
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
-
-      - name : Login to ECR
-        run: aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 123567778292.dkr.ecr.eu-central-1.amazonaws.com
-
-      - run: docker build -t ${{ github.event.pull_request.head.ref }} .
-        name: build image
-
-      - name: tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest 123567778292.dkr.ecr.eu-central-1.amazonaws.com/k8s-example-app:${{ github.event.pull_request.head.ref }}
-
-      - name: push image
-        run: docker push 123567778292.dkr.ecr.eu-central-1.amazonaws.com/k8s-example-app:${{ github.event.pull_request.head.ref }}
-
-
-
-
+  useReusableWorkflow:
+    uses: ./.github/workflows/build-image.yaml
+    with:
+      aws-region: 'eu-central-1'
+      ecr-url: '123567778292.dkr.ecr.eu-central-1.amazonaws.com'
+      ecr-repo-name: 'k8s-example-app'
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

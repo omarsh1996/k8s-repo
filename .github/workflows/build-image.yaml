@@ -1,18 +1,26 @@
-name: Build docker image
+name: Reusable ECR Docker Workflow
 
 on:
   workflow_call:
+    inputs:
+      aws-region:
+        required: true
+        default: 'eu-central-1'
+        description: 'AWS Region'
+      ecr-url:
+        required: true
+        description: 'ECR URL'
+      ecr-repo-name:
+        required: true
+        description: 'ECR Repository Name'
     secrets:
       AWS_ACCESS_KEY_ID:
-        description: 'AWS Access Key ID'
         required: true
       AWS_SECRET_ACCESS_KEY:
-        description: 'AWS Secret Access Key'
         required: true
 
-
 jobs:
-  buildImage:
+  buildPushECR:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,17 +31,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
+          aws-region: ${{ inputs.aws-region }}
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to ECR
+        run: aws ecr get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.ecr-url }}
 
-      - run: docker build -t ${{ github.event.pull_request.head.ref }} .
-        name: build image
+      - name: Build image
+        run: docker build -t ${{ github.event.pull_request.head.ref }} .
 
-      - name: tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest 123567778292.dkr.ecr.eu-central-1.amazonaws.com:${{ github.event.pull_request.head.ref }}
+      - name: Tag image
+        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.ecr-url }}/${{ inputs.ecr-repo-name }}:${{ github.event.pull_request.head.ref }}
 
-      - name: push image
-        run: docker push 123567778292.dkr.ecr.eu-central-1.amazonaws.com:${{ github.event.pull_request.head.ref }}
-
+      - name: Push image
+        run: docker push ${{ inputs.ecr-url }}/${{ inputs.ecr-repo-name }}:${{ github.event.pull_request.head.ref }}
