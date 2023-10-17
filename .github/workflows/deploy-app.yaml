@@ -20,6 +20,7 @@ on:
 
 jobs:
   deployAppToK8s:
+    name: Deploy App to K8s
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -42,11 +43,7 @@ jobs:
         with:
           version: v3.12.3
 
-      - name: Check versions
-        run: |
-          kubectl version --client
-          helm version
-      - name: Release Helm
+      - name: Release app
         run: |
           helm repo add omarsh1996 https://omarsh1996.github.io/celebrate-deployment/
           helm repo update
