@@ -12,10 +12,6 @@ on:
         required: true
         description: 'ECR URL'
         type: string
-      ecr-repo-name:
-        required: true
-        description: 'ECR Repository Name'
-        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
