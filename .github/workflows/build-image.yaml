@@ -37,7 +37,7 @@ jobs:
           aws-region: ${{ inputs.aws-region }}
 
       - name: Login to ECR
-        run: aws ecr get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.ecr-url }}
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build image
         run: docker build -t ${{ github.event.pull_request.head.ref }} .
