@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  useReusableWorkflow:
+  buildImage:
     uses: ./.github/workflows/build-image.yaml
     with:
       aws-region: 'eu-central-1'
@@ -14,3 +14,12 @@ jobs:
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deployApp:
+    uses: ./.github/workflows/deploy-app.yaml
+    with:
+      aws-region: 'eu-central-1'
+      ecr-url: ${{vars.IMAGE_REPO}}
+    secrets:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

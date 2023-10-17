@@ -1,0 +1,48 @@
+name: Reusable ECR Docker Workflow
+
+on:
+  workflow_call:
+    inputs:
+      aws-region:
+        required: true
+        default: 'eu-central-1'
+        type: string
+        description: 'AWS Region'
+      ecr-url:
+        required: true
+        description: 'ECR URL'
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  deployAppToK8s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Setup Helm
+        uses: helm/actions/setup-helm@v1
+        with:
+          version: v3.7.0
+
+      - name: Check versions
+        run: |
+          kubectl version --client
+          helm version
