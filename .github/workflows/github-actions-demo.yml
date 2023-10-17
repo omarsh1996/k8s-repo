@@ -16,6 +16,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   DEPLOY_FEATURE:
+    needs: buildImage
     uses: ./.github/workflows/deploy-app.yaml
     with:
       aws-region: 'eu-central-1'
