@@ -1,9 +1,9 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-    pull_request:
-        branches:
-        - main
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
-    uses: .github/workflows/reusables/build-image.yaml
+    uses: .github/workflows/reusables/build-image.yaml@{SHA/TAG/BRANCH}
