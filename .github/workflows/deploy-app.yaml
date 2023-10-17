@@ -49,4 +49,4 @@ jobs:
           helm repo update
           aws eks update-kubeconfig --name eksdemo1
           helm upgrade --install celebrate-deployment-${{ github.event.pull_request.head.ref }} omarsh1996/celebrate-deployment --set appName=${{ github.event.pull_request.head.ref }} --set prefix=${{ github.event.pull_request.head.ref }}
-          kubectl rollout restart deployment celebrate-deployment-${{ github.event.pull_request.head.ref }}
+          kubectl rollout restart deployment ${{ github.event.pull_request.head.ref }}
