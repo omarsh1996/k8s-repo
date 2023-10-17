@@ -25,6 +25,10 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name eksdemo1
 
+      - name: Set Branch Name as Env Var
+        run: |
+          echo "BRANCH_NAME=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+
       - name: Deploy to EKS
         run: |
-         echo "Branch name is ${{ github.event.pull_request.head.ref }}"
+          echo "Using Branch Name: $BRANCH_NAME"
