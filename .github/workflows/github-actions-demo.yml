@@ -27,10 +27,10 @@ jobs:
         name: build image
 
       - name: tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest 123567778292.dkr.ecr.eu-central-1.amazonaws.com:${{ github.event.pull_request.head.ref }}
+        run: docker tag ${{ github.event.pull_request.head.ref }}:latest 123567778292.dkr.ecr.eu-central-1.amazonaws.com/k8s-example-app:${{ github.event.pull_request.head.ref }}
 
       - name: push image
-        run: docker push 123567778292.dkr.ecr.eu-central-1.amazonaws.com:${{ github.event.pull_request.head.ref }}
+        run: docker push 123567778292.dkr.ecr.eu-central-1.amazonaws.com/k8s-example-app:${{ github.event.pull_request.head.ref }}
 
 
 
