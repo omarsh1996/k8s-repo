@@ -2,6 +2,17 @@ name: Build docker image
 
 on:
   workflow_call:
+    inputs:
+      IMAGE_REPO:
+        description: 'ECR Repository URI'
+        required: true
+      AWS_ACCESS_KEY_ID:
+        description: 'AWS Access Key ID'
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        description: 'AWS Secret Access Key'
+        required: true
+
 
 jobs:
   buildImage:
@@ -13,8 +24,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
       - name: Login to Amazon ECR
@@ -24,8 +35,8 @@ jobs:
         name: build image
 
       - name: tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ env.IMAGE_REPO }}:${{ github.event.pull_request.head.ref }}
+        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.IMAGE_REPO }}:${{ github.event.pull_request.head.ref }}
 
       - name: push image
-        run: docker push ${{ env.IMAGE_REPO }}:${{ github.event.pull_request.head.ref }}
+        run: docker push ${{ inputs.IMAGE_REPO }}:${{ github.event.pull_request.head.ref }}
 
