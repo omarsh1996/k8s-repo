@@ -27,6 +27,4 @@ jobs:
 
       - name: Deploy to EKS
         run: |
-          BRANCH_NAME=$(echo "${{ github.event.pull_request.head.ref }}" | jq -r ".")
-          echo "Branch name is $BRANCH_NAME"
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+         echo "Branch name is ${{ github.event.pull_request.head.ref }}"
