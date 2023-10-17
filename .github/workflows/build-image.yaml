@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  build image:
+  buildImage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
