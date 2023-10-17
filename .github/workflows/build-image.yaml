@@ -43,7 +43,7 @@ jobs:
         run: docker build -t ${{ github.event.pull_request.head.ref }} .
 
       - name: Tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.ecr-url }}/${{ inputs.ecr-repo-name }}:${{ github.event.pull_request.head.ref }}
+        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
 
       - name: Push image
-        run: docker push ${{ inputs.ecr-url }}/${{ inputs.ecr-repo-name }}:${{ github.event.pull_request.head.ref }}
+        run: docker push ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
