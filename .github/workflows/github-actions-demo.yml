@@ -5,7 +5,7 @@ on:
         branches:
         - main
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,3 +28,4 @@ jobs:
       - name: Deploy to EKS
         run: |
           kubectl get pods
+          echo ${GITHUB_REF##*/}
