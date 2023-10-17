@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/build-image.yaml
     with:
       aws-region: 'eu-central-1'
-      ecr-url: ${{env.REPO_URL}}
+      ecr-url: ${{vars.REPO_URL}}
       ecr-repo-name: 'k8s-example-app'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
