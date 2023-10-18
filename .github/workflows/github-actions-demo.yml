@@ -4,6 +4,13 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      deployToStage:
+        description: 'Deploy to stage manually?'
+        required: true
+        default: 'no'
+
 
 jobs:
   BUILD_IMAGE:
