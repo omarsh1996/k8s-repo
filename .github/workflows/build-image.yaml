@@ -12,6 +12,10 @@ on:
         required: true
         description: 'ECR URL'
         type: string
+      branch-name:
+        required: true
+        description: 'Branch name'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -36,10 +40,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build image
-        run: docker build -t ${{ github.event.pull_request.head.ref }} .
+        run: docker build -t ${{ inputs.branch-name }} .
 
       - name: Tag image
-        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
+        run: docker tag ${{ inputs.branch-name }}:latest ${{ inputs.ecr-url }}:${{ inputs.branch-name }}
 
       - name: Push image
-        run: docker push ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
+        run: docker push ${{ inputs.ecr-url }}:${{ inputs.branch-name }}
