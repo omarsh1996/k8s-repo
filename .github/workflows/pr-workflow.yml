@@ -39,7 +39,6 @@ jobs:
 
   DEPLOY_TO_STAGE:
     name: Deploy to stage
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToStage == 'yes'
     needs: DEPLOY_FEATURE
     uses: ./.github/workflows/deploy-app.yaml
     with:
