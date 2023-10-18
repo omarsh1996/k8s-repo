@@ -32,6 +32,7 @@ jobs:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
       app-name: stage
+      env: Stage
       branch-name: main
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
