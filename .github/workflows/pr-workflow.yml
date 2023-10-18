@@ -11,7 +11,6 @@ on:
         required: true
         default: 'no'
 
-
 jobs:
   BUILD_IMAGE:
     name: Build image
@@ -19,7 +18,7 @@ jobs:
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
-      branch-name: ${{ github.event.pull_request.head.ref }}
+      branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,23 +30,24 @@ jobs:
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
-      app-name: ${{ github.event.pull_request.head.ref }}
-      branch-name: ${{ github.event.pull_request.head.ref }}
+      app-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
+      branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
+      env: feature
     secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   DEPLOY_TO_STAGE:
     name: Deploy to stage
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToStage == 'yes'
     needs: DEPLOY_FEATURE
     uses: ./.github/workflows/deploy-app.yaml
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
       app-name: stage
-      branch-name: ${{ github.event.pull_request.head.ref }}
-    secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      env: Stage
+      branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
 
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
