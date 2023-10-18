@@ -32,6 +32,7 @@ jobs:
       ecr-url: ${{vars.IMAGE_REPO}}
       app-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
       branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
+      env: feature
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -45,7 +46,9 @@ jobs:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
       app-name: stage
+      env: Stage
       branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
+
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

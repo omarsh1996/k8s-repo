@@ -20,6 +20,10 @@ on:
         required: true
         description: 'Branch name'
         type: string
+      env:
+        required: true
+        description: 'Environment'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -30,6 +34,7 @@ jobs:
   deployAppToK8s:
     name: Deploy App to K8s
     runs-on: ubuntu-latest
+    environment: ${{inputs.env}}
     steps:
       - uses: actions/checkout@v2
         name: Checkout
