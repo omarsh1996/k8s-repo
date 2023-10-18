@@ -25,7 +25,7 @@ jobs:
 
   DEPLOY_TO_STAGE:
     name: Deploy to stage
-    needs: DEPLOY_FEATURE
+    needs: BUILD_IMAGE
     uses: ./.github/workflows/deploy-app.yaml
     with:
       aws-region: 'eu-central-1'
