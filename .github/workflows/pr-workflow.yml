@@ -1,0 +1,50 @@
+name: PR Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      deployToStage:
+        description: 'Deploy to stage manually?'
+        required: true
+        default: 'no'
+
+
+jobs:
+  BUILD_IMAGE:
+    name: Build image
+    uses: ./.github/workflows/build-image.yaml
+    with:
+      aws-region: 'eu-central-1'
+      ecr-url: ${{vars.IMAGE_REPO}}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  DEPLOY_FEATURE:
+    name: Deploy feature
+    needs: BUILD_IMAGE
+    uses: ./.github/workflows/deploy-app.yaml
+    with:
+      aws-region: 'eu-central-1'
+      ecr-url: ${{vars.IMAGE_REPO}}
+      app-name: ${{ github.event.pull_request.head.ref }}
+    secrets:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  DEPLOY_TO_STAGE:
+    name: Deploy to stage
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToStage == 'yes'
+    needs: DEPLOY_FEATURE
+    uses: ./.github/workflows/deploy-app.yaml
+    with:
+      aws-region: 'eu-central-1'
+      ecr-url: ${{vars.IMAGE_REPO}}
+      app-name: stage
+    secrets:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
