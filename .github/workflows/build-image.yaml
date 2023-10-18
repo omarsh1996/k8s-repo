@@ -1,0 +1,45 @@
+name: Reusable ECR Docker Workflow
+
+on:
+  workflow_call:
+    inputs:
+      aws-region:
+        required: true
+        default: 'eu-central-1'
+        type: string
+        description: 'AWS Region'
+      ecr-url:
+        required: true
+        description: 'ECR URL'
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  buildPushECR:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build image
+        run: docker build -t ${{ github.event.pull_request.head.ref }} .
+
+      - name: Tag image
+        run: docker tag ${{ github.event.pull_request.head.ref }}:latest ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
+
+      - name: Push image
+        run: docker push ${{ inputs.ecr-url }}:${{ github.event.pull_request.head.ref }}
