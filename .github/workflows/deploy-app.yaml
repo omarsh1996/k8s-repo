@@ -65,7 +65,7 @@ jobs:
           aws eks update-kubeconfig --name eksdemo1
           helm upgrade \
           --install celebrate-deployment-${{ inputs.app-name }} \
-          -f .github/.values.yaml
+          -f .github/.values.yaml \
           celebrate/celebrate-deployment \
           --set appName=${{ inputs.app-name }} \
           --set prefix=${{ inputs.app-name }} \
