@@ -25,7 +25,7 @@ jobs:
 
   RUN_TESTS:
     name: Run tests
-    uses: ./github/workflows/run-tests.yaml
+    uses: ./github/workflows/run-tests.yaml@main
 
   DEPLOY_FEATURE:
     name: Deploy feature
