@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
-const PORT = 80;
+let PORT = 80;
+
+if(process.env.ENVIRONMENT === 'test') {
+    PORT = 3000;
+}
 
 app.get('/', (req, res) => {
     res.send('Fix test branch');
