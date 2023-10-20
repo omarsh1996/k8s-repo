@@ -64,7 +64,7 @@ jobs:
       - name: Push Major Tag
         run: git push origin main --follow-tags
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
   tag_minor:
     runs-on: ubuntu-latest
