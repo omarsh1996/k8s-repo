@@ -56,7 +56,7 @@ jobs:
           node-version: 14
 
       - name: Bump Major Version
-        run: npm run bump-major
+        run: npm run major
       - name: Push Major Tag
         run: git push origin main --follow-tags
 
@@ -73,7 +73,7 @@ jobs:
           node-version: 14
 
       - name: Bump Minor Version
-        run: npm run bump-minor
+        run: npm run minor
       - name: Push Minor Tag
         run: git push origin main --follow-tags
 
@@ -90,6 +90,6 @@ jobs:
           node-version: 14
 
       - name: Bump Patch Version
-        run: npm run bump-patch
+        run: npm run patch
       - name: Push Patch Tag
         run: git push origin main --follow-tags
