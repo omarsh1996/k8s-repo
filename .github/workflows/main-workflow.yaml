@@ -31,7 +31,7 @@ jobs:
 
   DEPLOY_TO_STAGE:
     name: Deploy to stage
-    needs: BUILD_IMAGE
+    needs: RUN_TESTS
     uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
     with:
       aws-region: 'eu-central-1'
