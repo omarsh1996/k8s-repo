@@ -63,6 +63,8 @@ jobs:
         run: npm run major
       - name: Push Major Tag
         run: git push origin main --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tag_minor:
     runs-on: ubuntu-latest
@@ -84,6 +86,8 @@ jobs:
         run: npm run minor
       - name: Push Minor Tag
         run: git push origin main --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tag_patch:
     environment: Stage
@@ -105,3 +109,5 @@ jobs:
         run: npm run patch
       - name: Push Patch Tag
         run: git push origin main --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
