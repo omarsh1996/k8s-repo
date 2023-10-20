@@ -14,7 +14,7 @@ on:
 jobs:
   BUILD_IMAGE:
     name: Build image
-    uses: ./.github/workflows/build-image.yaml
+    uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
@@ -23,31 +23,21 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  DEPLOY_FEATURE:
-    name: Deploy feature
+  RUN_TESTS:
     needs: BUILD_IMAGE
-    uses: ./.github/workflows/deploy-app.yaml
+    name: Run tests
+    uses: ./.github/workflows/run-tests.yaml
+
+  DEPLOY_FEATURE:
+    needs: RUN_TESTS
+    name: Deploy feature
+    uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
       app-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
       branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
       env: feature
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  DEPLOY_TO_STAGE:
-    name: Deploy to stage
-    needs: DEPLOY_FEATURE
-    uses: ./.github/workflows/deploy-app.yaml
-    with:
-      aws-region: 'eu-central-1'
-      ecr-url: ${{vars.IMAGE_REPO}}
-      app-name: stage
-      env: Stage
-      branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.event_name == 'workflow_dispatch' && github.ref_name }}
-
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

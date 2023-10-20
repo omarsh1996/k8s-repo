@@ -1,0 +1,9 @@
+baseDomain: dev.kartenmacherei.de
+image:
+  repository: 123567778292.dkr.ecr.eu-central-1.amazonaws.com/k8s-example-app
+  tag: main
+  pullPolicy: Always
+
+aws:
+  certificate: arn:aws:acm:eu-central-1:123567778292:certificate/f77083c9-518f-4c18-abf4-c62ebb6afa98
+  ingressClassName: my-aws-ingress-class
