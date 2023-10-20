@@ -1,7 +1,7 @@
 name: Reusable ECR Docker Workflow
 
 on:
-  workflow_call:
+  - workflow_call
 
 jobs:
   run_tests:
