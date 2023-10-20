@@ -61,13 +61,14 @@ jobs:
 
       - name: Bump Major Version
         run: npm run major
+      - run: echo ${{ github.token }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Push Major Tag
         run: git push origin main --follow-tags
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - run: echo ${{ github.token }}
-        env:
-         GITHUB_TOKEN: ${{ github.token }}
+
   tag_minor:
     runs-on: ubuntu-latest
     environment: Stage
