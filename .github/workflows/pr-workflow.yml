@@ -29,8 +29,8 @@ jobs:
     uses: ./.github/workflows/run-tests.yaml
 
   DEPLOY_FEATURE:
+    needs: RUN_TESTS
     name: Deploy feature
-    needs: BUILD_IMAGE
     uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
     with:
       aws-region: 'eu-central-1'
