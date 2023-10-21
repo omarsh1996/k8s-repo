@@ -16,7 +16,6 @@ jobs:
 
   FETCH_SECRETS:
     runs-on: ubuntu-latest
-    needs: RUN_TESTS
     environment: major_release
     steps:
     - run: |
