@@ -63,12 +63,5 @@ jobs:
           helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
           helm repo update
           aws eks update-kubeconfig --name eksdemo1
-          helm upgrade \
-          --install celebrate-deployment-${{ inputs.app-name }} \
-          -f .github/.values.yaml \
-          celebrate/celebrate-deployment \
-          --set appName=${{ inputs.app-name }} \
-          --set prefix=${{ inputs.app-name }} \
-          --set image.tag=${{ inputs.branch-name }} \
-          --namespace $(echo ${{ github.repository }} | cut -d'/' -f2) --create-namespace
+          helm upgrade  --install celebrate-deployment-${{ inputs.app-name }} -f .github/.values.yaml celebrate/celebrate-deployment \--set appName=${{ inputs.app-name }} --set prefix=${{ inputs.app-name }} --set image.tag=${{ inputs.branch-name }} --namespace $(echo ${{ github.repository }} | cut -d'/' -f2) --create-namespace
           kubectl rollout restart deployment ${{ inputs.app-name }} -n $(echo ${{ github.repository }} | cut -d'/' -f2)

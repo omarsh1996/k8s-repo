@@ -14,7 +14,7 @@ on:
 jobs:
   BUILD_IMAGE:
     name: Build image
-    uses: ./.github/workflows/build-image.yaml@main
+    uses: ./.github/workflows/build-image.yaml
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
