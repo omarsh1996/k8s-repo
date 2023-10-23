@@ -14,7 +14,7 @@ on:
 jobs:
   BUILD_IMAGE:
     name: Build image
-    uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
+    uses: ./.github/workflows/build-image.yaml@main
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
@@ -31,7 +31,7 @@ jobs:
   DEPLOY_FEATURE:
     needs: RUN_TESTS
     name: Deploy feature
-    uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
+    uses: ./.github/workflows/deploy-app.yaml
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
