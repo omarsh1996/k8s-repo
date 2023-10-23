@@ -33,7 +33,9 @@ on:
 jobs:
   deployAppToK8s:
     name: Deploy App to K8s
-    runs-on: public.ecr.aws/d1z6e0p1/celebrate-deployment:latest
+    runs-on: container
+    container:
+        image: public.ecr.aws/d1z6e0p1/celebrate-deployment:latest
     environment: ${{inputs.env}}
     steps:
       - uses: actions/checkout@v2
