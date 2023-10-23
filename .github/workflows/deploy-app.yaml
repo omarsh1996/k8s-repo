@@ -33,7 +33,7 @@ on:
 jobs:
   deployAppToK8s:
     name: Deploy App to K8s
-    runs-on: container
+    runs-on: ubuntu-latest
     container:
         image: public.ecr.aws/d1z6e0p1/celebrate-deployment:latest
     environment: ${{inputs.env}}
