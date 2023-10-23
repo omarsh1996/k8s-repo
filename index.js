@@ -7,7 +7,7 @@ if(process.env.ENVIRONMENT === 'test') {
 }
 
 app.get('/', (req, res) => {
-    res.send('Fix test branch');
+    res.send('Fix test2 branch');
 });
 
 app.listen(PORT, () => {
