@@ -66,7 +66,7 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-           npm run deploy
+           ls -la
 #          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
 #          helm repo update
 #          aws eks update-kubeconfig --name eksdemo1
