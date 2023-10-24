@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
         image: public.ecr.aws/d1z6e0p1/celebrate-deployment:latest
+
     environment: ${{inputs.env}}
     steps:
       - uses: actions/checkout@v2
@@ -61,10 +62,14 @@ jobs:
           version: v3.12.3
 
       - name: Release app
+        env:
+          ALLMYSECRETS: ${{ toJSON(secrets) }}
+          ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
-          helm repo update
-          aws eks update-kubeconfig --name eksdemo1
+           npm run deploy
+#          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
+#          helm repo update
+#          aws eks update-kubeconfig --name eksdemo1
       - name:  Helm Release app
         run: |
           helm upgrade  --install celebrate-deployment-${{ inputs.app-name }} -f .github/.values.yaml celebrate/celebrate-deployment \--set appName=${{ inputs.app-name }} --set prefix=${{ inputs.app-name }} --set image.tag=${{ inputs.branch-name }} --namespace $(echo ${{ github.repository }} | cut -d'/' -f2) --create-namespace
