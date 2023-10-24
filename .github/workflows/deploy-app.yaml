@@ -72,5 +72,5 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-          helm upgrade --install celebrate-deployment-${{ inputs.app-name }} -f .github/.values.yaml celebrate/celebrate-deployment --set appName=${{ inputs.app-name }} --set prefix=${{ inputs.app-name }} --set image.tag=${{ inputs.branch-name }}
+          npm run deploy
 
