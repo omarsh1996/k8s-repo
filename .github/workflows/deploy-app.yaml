@@ -41,6 +41,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout
+
+      - uses: actions/checkout@v2
+        name: Checkout
+        with:
+          name:
+
+
+
       - name: echo
         run: echo ${{ inputs.branch-name }}
 
@@ -66,7 +74,7 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-           docker ps
+           ls /workspace
 #          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
 #          helm repo update
 #          aws eks update-kubeconfig --name eksdemo1
