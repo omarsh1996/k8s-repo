@@ -63,13 +63,13 @@ jobs:
           version: v3.12.3
 
       - name: Release app
-        env:
-          ALLMYSECRETS: ${{ toJSON(secrets) }}
-          ALLMYVARS: ${{ toJSON(vars) }}
         run: |
           helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
           helm repo update
           aws eks update-kubeconfig --name eksdemo1
       - name:  Helm Release app
+        env:
+          ALLMYSECRETS: ${{ toJSON(secrets) }}
+          ALLMYVARS: ${{ toJSON(vars) }}
         run: |
           npm run deploy --prefix /workspace
