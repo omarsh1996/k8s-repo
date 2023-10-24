@@ -72,5 +72,5 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-          npm run deploy
+          npm run deploy --prefix /workspace
 
