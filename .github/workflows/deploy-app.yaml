@@ -42,15 +42,8 @@ jobs:
       - uses: actions/checkout@v2
         name: Checkout
 
-      - uses: actions/checkout@v2
-        name: Checkout
-        with:
-          name:
-
-
-
       - name: echo
-        run: echo ${{ secrets.K8S_APP_SECRET1 }}
+        run: echo ${{ inputs.branch-name }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -74,10 +67,9 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-          npm run deploy --prefix /workspace
-#          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
-#          helm repo update
-#          aws eks update-kubeconfig --name eksdemo1
+          helm repo add celebrate https://omarsh1996.github.io/celebrate-deployment/
+          helm repo update
+          aws eks update-kubeconfig --name eksdemo1
       - name:  Helm Release app
         run: |
-          helm upgrade  --install celebrate-deployment-${{ inputs.app-name }} -f .github/.values.yaml celebrate/celebrate-deployment \--set appName=${{ inputs.app-name }} --set prefix=${{ inputs.app-name }} --set image.tag=${{ inputs.branch-name }} --namespace $(echo ${{ github.repository }} | cut -d'/' -f2) --create-namespace
+          npm run deploy --prefix /workspace
