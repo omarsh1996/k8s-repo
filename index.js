@@ -7,7 +7,7 @@ if(process.env.ENVIRONMENT === 'test') {
 }
 
 app.get('/', (req, res) => {
-    res.send(`Reading Variable from Github Actions ${process.env.VAR}`);
+    res.send(`Reading Variable from Github Actions ${process.env.SECRET1}`);
 });
 
 app.listen(PORT, () => {
