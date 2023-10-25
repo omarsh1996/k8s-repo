@@ -43,7 +43,7 @@ jobs:
         name: Checkout
 
       - name: echo
-        run: echo ${{ inputs.branch-name }}
+        run: echo ${{ pwd }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
