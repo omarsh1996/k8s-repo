@@ -6,8 +6,6 @@ on:
       - '*'
 
 jobs:
-  version-tag-job:
-    runs-on: ubuntu-latest
 
   BUILD_IMAGE:
     name: Build image
