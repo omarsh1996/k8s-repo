@@ -6,15 +6,25 @@ on:
       - '*'
 
 jobs:
-
   BUILD_IMAGE:
     name: Build image
-    uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
-    with:
-      aws-region: 'eu-central-1'
-      ecr-url: ${{vars.IMAGE_REPO}}
-      branch-name: ${{ github.ref/refs\/tags\// }}
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
+        with:
+          aws-region: 'eu-central-1'
+          ecr-url: ${{ secrets.IMAGE_REPO }}
+          branch-name: ${{ github.ref/refs/tags/ }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+
+
+
 
