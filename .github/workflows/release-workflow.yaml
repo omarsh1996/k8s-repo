@@ -6,6 +6,7 @@ on:
       - '*'
 
 jobs:
+
   BUILD_IMAGE:
     name: Build image
     uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
@@ -17,19 +18,3 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  RUN_TESTS:
-    needs: BUILD_IMAGE
-    name: Run tests
-    uses: ./.github/workflows/run-tests.yaml
-
-  DEPLOY_TO_PRODUCTION:
-    name: Deploy to production
-    needs: RUN_TESTS
-    uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
-    with:
-      aws-region: 'eu-central-1'
-      ecr-url: ${{vars.IMAGE_REPO}}
-      app-name: prod
-      env: Production
-      branch-name: ${{ github.ref/refs\/tags\// }}
-    secrets: inherit
