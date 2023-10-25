@@ -11,7 +11,6 @@ describe('GET /', () => {
         request(app)
             .get('/')
             .expect(200)
-            .expect('Fix test branch')
             .end((err) => {
                 if (err) return done(err);
                 done();
