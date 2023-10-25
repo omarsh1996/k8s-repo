@@ -31,7 +31,7 @@ jobs:
   DEPLOY_FEATURE:
     needs: RUN_TESTS
     name: Deploy feature
-    uses: ./.github/workflows/deploy-app.yaml
+    uses: omarsh1996/reusable-workflows/.github/workflows/deploy-app.yaml@main
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
