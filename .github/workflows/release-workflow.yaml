@@ -8,13 +8,20 @@ on:
 
 
 jobs:
+
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo ${{ github.ref_name }}
+
   BUILD_IMAGE:
     name: Build image
     uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
     with:
       aws-region: 'eu-central-1'
       ecr-url: ${{vars.IMAGE_REPO}}
-      branch-name: $GITHUB_REF_NAME
+      branch-name: ${{ github.ref_name }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
