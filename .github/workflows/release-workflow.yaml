@@ -6,7 +6,6 @@ on:
       - '*'
 
 jobs:
-
   BUILD_IMAGE:
     name: Build image
     uses: omarsh1996/reusable-workflows/.github/workflows/build-image.yaml@main
