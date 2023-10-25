@@ -69,8 +69,10 @@ jobs:
           aws eks update-kubeconfig --name eksdemo1
       - name: Helm Release app
         env:
-          ALLMYSECRETS: ${{ toJSON(secrets) }}
-          ALLMYVARS: ${{ toJSON(vars) }}
+          allSecrets: ${{ toJSON(secrets) }}
+          allVars: ${{ toJSON(vars) }}
+          allInputs: ${{ toJSON(inputs) }}
+
         run: |
           npm run deploy --prefix /workspace
 
