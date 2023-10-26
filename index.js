@@ -7,7 +7,7 @@ if(process.env.ENVIRONMENT === 'test') {
 }
 
 app.get('/', (req, res) => {
-    res.send(`(INSIDE TEST BRANCH) Reading Variable from Github Actions ${process.env.SECRET1}`);
+    res.send(`Reading Variable from Github Actions ${process.env.SECRET1}`);
 });
 
 app.listen(PORT, () => {
